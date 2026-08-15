@@ -9,7 +9,7 @@ describe('transformCode', () => {
   it('rewrites .let() in a module and injects a named import', () => {
     const result = transform('export const x = a.let(v => v + 1);');
     expect(result?.code).toBe(
-      'import { letExt as __kt$let } from "vite-plugin-kotlin-ext/runtime";\n' +
+      'import { letExt as __kt$let } from "kotlified-ts/runtime";\n' +
         'export const x = __kt$let(a, v => v + 1);',
     );
     expect(result?.helpers).toEqual(['__kt$let']);
@@ -108,7 +108,7 @@ describe('transformCode', () => {
   it('combines helper imports into a single statement', () => {
     const result = transform('export const x = a.let(f);\nexport const y = b.run(g);');
     expect(result?.code).toContain(
-      'import { letExt as __kt$let, runExt as __kt$run } from "vite-plugin-kotlin-ext/runtime";',
+      'import { letExt as __kt$let, runExt as __kt$run } from "kotlified-ts/runtime";',
     );
   });
 

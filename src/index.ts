@@ -2,18 +2,18 @@ import type { Plugin } from 'vite';
 import { transformCode } from './transform.js';
 
 /**
- * vite-plugin-kotlin-ext
+ * kotlified-ts
  *
  * Compile-time Kotlin extension functions for Vite projects.
  * `.let()`, `.apply()`, `.run()`, `.also()`, `.takeIf()` and `.takeUnless()`
  * calls are rewritten to direct runtime helper calls — no prototype pollution.
  */
-export interface KotlinExtOptions {
+export interface KotlifyOptions {
   /** Extra include filter applied to the full module id (default: all transformable files). */
   include?: RegExp;
   /** Exclude filter applied to the full module id. */
   exclude?: RegExp;
-  /** Import specifier for the injected runtime import. Defaults to `vite-plugin-kotlin-ext/runtime`. */
+  /** Import specifier for the injected runtime import. Defaults to `kotlified-ts/runtime`. */
   runtimeId?: string;
   /**
    * Warn when a rewritten call could shadow a real member declared in the
@@ -40,7 +40,7 @@ function parserFilename(id: string): string {
   return path;
 }
 
-export function shouldTransformId(id: string, options: Pick<KotlinExtOptions, 'include' | 'exclude'> = {}): boolean {
+export function shouldTransformId(id: string, options: Pick<KotlifyOptions, 'include' | 'exclude'> = {}): boolean {
   if (id.includes('/node_modules/')) return false;
   if (/\.d\.[cm]?ts$/.test(id)) return false;
   const [path = '', query] = id.split('?');
@@ -53,14 +53,14 @@ export function shouldTransformId(id: string, options: Pick<KotlinExtOptions, 'i
   return true;
 }
 
-export default function kotlinExt(options: KotlinExtOptions = {}): Plugin {
+export default function kotlify(options: KotlifyOptions = {}): Plugin {
   // Dedupe shadow warnings so dev-server rebuilds don't spam the console.
   const warned = new Set<string>();
   // NOTE: the global `Object.apply` augmentation makes fresh object literals
   // look like they have an `apply` member, which conflicts with vite's
   // `Plugin.apply`. The double assertion sidesteps that assignability check.
   return {
-    name: 'vite-plugin-kotlin-ext',
+    name: 'kotlify',
     enforce: 'pre',
     transform(code: string, id: string) {
       if (!shouldTransformId(id, options)) return null;

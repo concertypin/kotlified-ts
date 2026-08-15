@@ -5,7 +5,7 @@
  * `.takeIf()` and `.takeUnless()` type-check on any value — with the block
  * parameters narrowed to the receiver's actual type via `this: T` generics.
  *
- * They only describe calls that `vite-plugin-kotlin-ext` rewrites at build
+ * They only describe calls that `kotlified-ts` rewrites at build
  * time into direct runtime helper calls. Nothing is ever added to any
  * prototype; if you see `value.let(...)` in shipped code, the plugin is
  * not running.
@@ -14,7 +14,7 @@
  *
  *   {
  *     "compilerOptions": {
- *       "types": ["vite-plugin-kotlin-ext/global"]
+ *       "types": ["kotlified-ts/global"]
  *     }
  *   }
  */

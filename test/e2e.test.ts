@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { build } from 'vite';
-import kotlinExt from '../src/index.js';
+import kotlify from '../src/index.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -41,7 +41,7 @@ export function render(...args) { console.log(args); }
       const result = await build({
         root: dir,
         logLevel: 'silent',
-        plugins: [kotlinExt({ runtimeId: path.join(root, 'src/runtime.ts') })],
+        plugins: [kotlify({ runtimeId: path.join(root, 'src/runtime.ts') })],
         build: {
           write: false,
           minify: false,

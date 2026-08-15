@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-kotlin-ext",
+  "name": "kotlified-ts",
   "version": "0.1.0",
   "description": "Compile-time Kotlin extension functions (let/apply/run/also/takeIf/takeUnless) for Vite — zero prototype pollution.",
   "type": "module",

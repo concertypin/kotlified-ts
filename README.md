@@ -1,4 +1,4 @@
-# vite-plugin-kotlin-ext
+# kotlified-ts
 
 Compile-time [Kotlin extension functions](https://kotlinlang.org/docs/scope-functions.html) for Vite projects: `let`, `apply`, `run`, `also`, `takeIf`, `takeUnless`.
 
@@ -18,7 +18,7 @@ const el = document.querySelector('#app').apply(node => {
 
 ```js
 // output (approximately — only the matched calls are replaced)
-import { letExt as __kt$let, alsoExt as __kt$also, applyExt as __kt$apply } from 'vite-plugin-kotlin-ext/runtime';
+import { letExt as __kt$let, alsoExt as __kt$also, applyExt as __kt$apply } from 'kotlified-ts/runtime';
 
 const label = __kt$also(
   __kt$let(users.filter(u => u.active), list => list.map(u => u.name).join(', ')),
@@ -33,16 +33,16 @@ const el = __kt$apply(document.querySelector('#app'), node => {
 ## Install
 
 ```bash
-pnpm add -D vite-plugin-kotlin-ext
+pnpm add -D kotlified-ts
 ```
 
 ```ts
 // vite.config.ts
 import { defineConfig } from 'vite';
-import kotlinExt from 'vite-plugin-kotlin-ext';
+import kotlify from 'kotlified-ts';
 
 export default defineConfig({
-  plugins: [kotlinExt()],
+  plugins: [kotlify()],
 });
 ```
 
@@ -53,7 +53,7 @@ The plugin ships a global type augmentation so the calls type-check on any value
 ```json
 {
   "compilerOptions": {
-    "types": ["vite-plugin-kotlin-ext/global"]
+    "types": ["kotlified-ts/global"]
   }
 }
 ```
@@ -76,7 +76,7 @@ The plugin ships a global type augmentation so the calls type-check on any value
 1. `transform` hook runs `enforce: 'pre'` on `.ts/.tsx/.js/.jsx/.mjs/.cjs/.mts/.cts` files and SFC script blocks (`.vue`/`.svelte`/`.astro` `type=script`).
 2. A fast regex pre-check skips files without candidate calls, then the file is parsed with `@babel/parser`.
 3. Every `obj.method(block)` call where `method` is one of the six names **and has exactly one argument** is rewritten in place to `__kt$helper(obj, block)`. Only matched calls are touched — the rest of the file stays byte-for-byte identical (no reprinting, no reformatting churn).
-4. A single `import { ... } from 'vite-plugin-kotlin-ext/runtime'` is injected for the used helpers (non-module scripts get tiny inline `const` definitions instead).
+4. A single `import { ... } from 'kotlified-ts/runtime'` is injected for the used helpers (non-module scripts get tiny inline `const` definitions instead).
 5. Nothing is added to any prototype; the runtime helpers are plain exported functions that bundlers tree-shake per helper.
 
 ## Semantics notes
@@ -92,10 +92,10 @@ The plugin ships a global type augmentation so the calls type-check on any value
 ## Options
 
 ```ts
-kotlinExt({
+kotlify({
   include: /\/src\//,      // extra include filter (default: all transformable files)
   exclude: /\.spec\.ts$/,  // exclude filter
-  runtimeId: 'my-scope/runtime', // import specifier for the runtime (default: vite-plugin-kotlin-ext/runtime)
+  runtimeId: 'my-scope/runtime', // import specifier for the runtime (default: kotlified-ts/runtime)
   shadowWarn: false,       // silence shadow warnings (default: true)
 })
 ```
@@ -103,7 +103,7 @@ kotlinExt({
 ## Using the runtime directly (no Vite)
 
 ```ts
-import { letExt, applyExt, runExt } from 'vite-plugin-kotlin-ext/runtime';
+import { letExt, applyExt, runExt } from 'kotlified-ts/runtime';
 
 const x = letExt({ n: 1 }, v => v.n + 1);
 ```

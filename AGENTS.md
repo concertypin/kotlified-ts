@@ -1,4 +1,4 @@
-# vite-plugin-kotlin-ext
+# kotlified-ts
 
 Compile-time Kotlin scope functions (`let`/`apply`/`run`/`also`/`takeIf`/`takeUnless`) for Vite.
 

@@ -230,7 +230,7 @@ export function transformCode(code: string, options: TransformOptions = {}): Tra
   } catch (err) {
     // Files we cannot parse (e.g. exotic syntax) are left untouched.
     const message = err instanceof Error ? err.message : String(err);
-    console.warn(`[vite-plugin-kotlin-ext] skipped ${options.filename ?? '<unknown>'}: ${message}`);
+    console.warn(`[kotlify] skipped ${options.filename ?? '<unknown>'}: ${message}`);
     return null;
   }
 
@@ -272,7 +272,7 @@ export function transformCode(code: string, options: TransformOptions = {}): Tra
   const helpers = [...new Set(candidates.map((c) => c.helper))];
   if (helpers.length > 0) {
     if (ast.program.sourceType === 'module') {
-      const runtimeId = options.runtimeId ?? 'vite-plugin-kotlin-ext/runtime';
+      const runtimeId = options.runtimeId ?? 'kotlified-ts/runtime';
       const specifiers = helpers.map((h) => `${RUNTIME_EXPORT[h]} as ${h}`).join(', ');
       out = insertAtTop(out, `import { ${specifiers} } from ${JSON.stringify(runtimeId)};\n`);
     } else {
@@ -295,7 +295,7 @@ export function transformCode(code: string, options: TransformOptions = {}): Tra
       const lines = [...new Set(risky.map((c) => c.line))].sort((a, b) => a - b).join(', ');
       const label = options.fileLabel ?? options.filename ?? '<unknown>';
       warnings.push(
-        `[vite-plugin-kotlin-ext] ${label}: real ${names} member(s) declared in this file, but ` +
+        `[kotlify] ${label}: real ${names} member(s) declared in this file, but ` +
           `${risky.length} matching call(s) were rewritten anyway (line(s) ${lines}). ` +
           `Use computed access (obj['name'](fn)) or rename to keep the real member.`,
       );

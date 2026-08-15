@@ -1,5 +1,5 @@
 /**
- * Runtime helpers for `vite-plugin-kotlin-ext`.
+ * Runtime helpers for `kotlified-ts`.
  *
  * The Vite plugin rewrites Kotlin-style scope-function calls into direct
  * calls of these functions, so nothing is ever attached to
