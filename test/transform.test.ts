@@ -126,4 +126,51 @@ describe('transformCode', () => {
     expect(transform('const x = <T>a;', 'broken.tsx')).toBeNull();
     expect(transform('const x = a.let(f); ???', 'broken.ts')).toBeNull();
   });
+
+  describe('shadow heuristic', () => {
+    it('warns when a class method shadows a rewritten call', () => {
+      const code =
+        'class A {\n  let(fn: (n: number) => number) { return fn(1); }\n}\nconst x = a.let(v => v + 1);\nexport {};';
+      const result = transform(code);
+      expect(result?.code).toContain('__kt$let(a, v => v + 1)');
+      expect(result?.warnings).toHaveLength(1);
+      expect(result?.warnings[0]).toContain('let');
+      expect(result?.warnings[0]).toContain('line(s) 4');
+    });
+
+    it('warns for interface method signatures and object literal methods', () => {
+      const code =
+        'interface I { also(fn: () => void): void }\nconst o = { run(fn: () => void) {} };\nconst x = a.also(f);\nconst y = b.run(g);\nexport {};';
+      const result = transform(code);
+      expect(result?.warnings).toHaveLength(1);
+      expect(result?.warnings[0]).toContain('also, run');
+    });
+
+    it('warns for function-valued properties', () => {
+      const code =
+        'const o = { takeIf: (p: boolean) => p };\nconst x = a.takeIf(p => p);\nexport {};';
+      const result = transform(code);
+      expect(result?.warnings).toHaveLength(1);
+      expect(result?.warnings[0]).toContain('takeIf');
+    });
+
+    it('does not warn when no real member shadows the calls', () => {
+      const code =
+        'class A {\n  map(fn: (n: number) => number) { return fn(1); }\n}\nconst x = a.let(v => v + 1);\nexport {};';
+      expect(transform(code)?.warnings).toHaveLength(0);
+    });
+
+    it('does not warn when the shadowed member is never called', () => {
+      const code = 'class A {\n  let(fn: () => void) {}\n}\nexport {};';
+      expect(transform(code)).toBeNull();
+    });
+
+    it('can be silenced with shadowWarn: false', () => {
+      const code =
+        'class A {\n  let(fn: () => void) {}\n}\nconst x = a.let(v => v);\nexport {};';
+      const result = transformCode(code, { filename: 'sample.ts', shadowWarn: false })!;
+      expect(result.warnings).toHaveLength(0);
+      expect(result.code).toContain('__kt$let(a, v => v)');
+    });
+  });
 });

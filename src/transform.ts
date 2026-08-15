@@ -16,11 +16,20 @@ export interface TransformOptions {
   filename?: string;
   /** Import specifier injected for the runtime helpers. */
   runtimeId?: string;
+  /** Label used in shadow warnings (defaults to `filename`). */
+  fileLabel?: string;
+  /**
+   * Warn when this file declares a real method that shadows a rewritten
+   * call (e.g. `class A { let(fn) {} }` + `x.let(fn)`). Default: true.
+   */
+  shadowWarn?: boolean;
 }
 
 export interface TransformResult {
   code: string;
   helpers: string[];
+  /** Human-readable warnings for shadowed calls (already prefixed). */
+  warnings: string[];
 }
 
 const METHOD_NAMES = new Set(['let', 'apply', 'run', 'also', 'takeIf', 'takeUnless']);
@@ -73,6 +82,8 @@ interface Candidate {
   start: number;
   end: number;
   helper: string;
+  method: string;
+  line: number;
   object: t.Expression;
   block: t.ArgumentPlaceholder | t.SpreadElement | t.Expression;
 }
@@ -133,6 +144,43 @@ function isOptionalAccess(call: t.CallExpression | t.OptionalCallExpression): bo
   return callee?.type === 'OptionalMemberExpression' && callee.optional === true;
 }
 
+/** Node types that declare a real callable member (`key` is an Identifier). */
+const SHADOW_METHOD_TYPES = new Set([
+  'ClassMethod',
+  'ObjectMethod',
+  'TSDeclareMethod',
+  'TSMethodSignature',
+]);
+
+/** Property-like nodes that can hold a function value (e.g. `{ let: (f) => f }`). */
+const SHADOW_PROPERTY_TYPES = new Set(['ObjectProperty', 'ClassProperty', 'ClassAccessorProperty']);
+
+/**
+ * Names of the six extension functions that this file declares as *real*
+ * members (class methods, object literal methods, interface signatures,
+ * function-valued properties). Rewriting a call with the same name would
+ * silently bypass such a member.
+ */
+function findShadowedNames(ast: t.File): Set<string> {
+  const names = new Set<string>();
+  walk(ast, (node) => {
+    if (SHADOW_METHOD_TYPES.has(node.type)) {
+      const key = node.key;
+      if (t.isIdentifier(key) && METHOD_NAMES.has(key.name)) names.add(key.name);
+      return;
+    }
+    if (SHADOW_PROPERTY_TYPES.has(node.type)) {
+      const key = node.key;
+      if (!t.isIdentifier(key) || !METHOD_NAMES.has(key.name)) return;
+      const value = node.value;
+      if (value && (t.isArrowFunctionExpression(value) || t.isFunctionExpression(value))) {
+        names.add(key.name);
+      }
+    }
+  });
+  return names;
+}
+
 function findCandidates(ast: t.File): Candidate[] {
   const candidates: Candidate[] = [];
   walk(ast, (node) => {
@@ -153,6 +201,8 @@ function findCandidates(ast: t.File): Candidate[] {
       start: node.start ?? 0,
       end: node.end ?? 0,
       helper,
+      method: name,
+      line: node.loc?.start.line ?? 0,
       object: callee.object as t.Expression,
       block,
     });
@@ -231,5 +281,26 @@ export function transformCode(code: string, options: TransformOptions = {}): Tra
     }
   }
 
-  return { code: out, helpers };
+  // Shadow heuristic: if this file declares a real member with one of the
+  // six names, rewritten calls of that name silently bypass it. Warn.
+  const warnings: string[] = [];
+  const shadowed = findShadowedNames(ast);
+  if (options.shadowWarn !== false && shadowed.size > 0) {
+    const risky = candidates.filter((c) => shadowed.has(c.method));
+    if (risky.length > 0) {
+      const names = [...shadowed]
+        .filter((n) => risky.some((c) => c.method === n))
+        .sort()
+        .join(', ');
+      const lines = [...new Set(risky.map((c) => c.line))].sort((a, b) => a - b).join(', ');
+      const label = options.fileLabel ?? options.filename ?? '<unknown>';
+      warnings.push(
+        `[vite-plugin-kotlin-ext] ${label}: real ${names} member(s) declared in this file, but ` +
+          `${risky.length} matching call(s) were rewritten anyway (line(s) ${lines}). ` +
+          `Use computed access (obj['name'](fn)) or rename to keep the real member.`,
+      );
+    }
+  }
+
+  return { code: out, helpers, warnings };
 }

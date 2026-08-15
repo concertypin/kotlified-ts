@@ -82,6 +82,7 @@ The plugin ships a global type augmentation so the calls type-check on any value
 ## Semantics notes
 
 - **One-argument rule**: only calls with exactly one argument are rewritten. In particular the native `Function.prototype.apply(thisArg, argsArray)` (2 arguments) is never touched, while a 1-argument `fn.apply(block)` is treated as Kotlin `apply`. (Typing note: `fn.apply(block)` on a *function* receiver doesn't type-check — `CallableFunction.apply` types `thisArg` as the function's `this` type, so prefer `.run()`/`.also()` for functions, or `.apply()` on objects.)
+- **Shadow heuristic**: when a file declares a real member with one of the six names (`class A { let(fn) {} }`, interface method signatures, object literal methods, function-valued properties), the plugin warns about rewritten calls of that name — they would silently bypass the real member. The rewrite still happens; use computed access `obj['let'](fn)` to keep the real method, or pass `shadowWarn: false` to silence.
 - **Computed access** (`obj['let'](...)`) is left alone.
 - **`super.let(...)`** is left alone.
 - TypeScript positions (`typeof x.let`, type annotations) are never rewritten.
@@ -95,6 +96,7 @@ kotlinExt({
   include: /\/src\//,      // extra include filter (default: all transformable files)
   exclude: /\.spec\.ts$/,  // exclude filter
   runtimeId: 'my-scope/runtime', // import specifier for the runtime (default: vite-plugin-kotlin-ext/runtime)
+  shadowWarn: false,       // silence shadow warnings (default: true)
 })
 ```
 
