@@ -4,6 +4,10 @@
     "description": "Compile-time Kotlin extension functions (let/apply/run/also/takeIf/takeUnless) for Vite — zero prototype pollution.",
     "license": "MIT",
     "author": "concertypin",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/concertypin/kotlified-ts.git"
+    },
     "files": [
         "dist"
     ],
