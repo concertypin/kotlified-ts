@@ -59,12 +59,13 @@ export function shouldTransformId(
 export default function kotlify(options: KotlifyOptions = {}): Plugin {
     // Dedupe shadow warnings so dev-server rebuilds don't spam the console.
     const warned = new Set<string>();
-    // NOTE: the global `Object.apply` augmentation makes fresh object literals
-    // look like they have an `apply` member, which conflicts with vite's
-    // `Plugin.apply`. The double assertion sidesteps that assignability check.
-    return {
+    // vite의 Plugin.apply와 전역 Object.apply 오거멘테이션(코틀린 헬퍼)이
+    // 이름이 겹쳐 리터럴이 Plugin에 직접 할당되지 않는다. apply는 선택 필드라
+    // undefined로 명시해두면 할당 검사를 통과한다 (실행 시 undefined = 전체 적용).
+    const plugin: Plugin = {
         name: "kotlify",
         enforce: "pre",
+        apply: undefined,
         transform(code: string, id: string) {
             if (!shouldTransformId(id, options)) return null;
             const result = transformCode(code, {
@@ -82,5 +83,6 @@ export default function kotlify(options: KotlifyOptions = {}): Plugin {
             }
             return { code: result.code };
         },
-    } as unknown as Plugin;
+    };
+    return plugin;
 }
