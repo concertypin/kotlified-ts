@@ -7,33 +7,33 @@ Write Kotlin-style scope functions in TypeScript/JavaScript, and the plugin rewr
 ```ts
 // source
 const label = users
-  .filter((u) => u.active)
-  .let((list) => list.map((u) => u.name).join(", "))
-  .also(console.log);
+    .filter((u) => u.active)
+    .let((list) => list.map((u) => u.name).join(", "))
+    .also(console.log);
 
 const el = document.querySelector("#app").apply((node) => {
-  node.dataset.ready = "1";
+    node.dataset.ready = "1";
 });
 ```
 
 ```js
 // output (approximately — only the matched calls are replaced)
 import {
-  letExt as __kt$let,
-  alsoExt as __kt$also,
-  applyExt as __kt$apply,
+    letExt as __kt$let,
+    alsoExt as __kt$also,
+    applyExt as __kt$apply,
 } from "kotlified-ts/runtime";
 
 const label = __kt$also(
-  __kt$let(
-    users.filter((u) => u.active),
-    (list) => list.map((u) => u.name).join(", "),
-  ),
-  console.log,
+    __kt$let(
+        users.filter((u) => u.active),
+        (list) => list.map((u) => u.name).join(", ")
+    ),
+    console.log
 );
 
 const el = __kt$apply(document.querySelector("#app"), (node) => {
-  node.dataset.ready = "1";
+    node.dataset.ready = "1";
 });
 ```
 
@@ -49,7 +49,7 @@ import { defineConfig } from "vite";
 import kotlify from "kotlified-ts";
 
 export default defineConfig({
-  plugins: [kotlify()],
+    plugins: [kotlify()],
 });
 ```
 
@@ -59,9 +59,9 @@ The plugin ships a global type augmentation so the calls type-check on any value
 
 ```json
 {
-  "compilerOptions": {
-    "types": ["kotlified-ts/global"]
-  }
+    "compilerOptions": {
+        "types": ["kotlified-ts/global"]
+    }
 }
 ```
 
@@ -100,10 +100,10 @@ The plugin ships a global type augmentation so the calls type-check on any value
 
 ```ts
 kotlify({
-  include: /\/src\//, // extra include filter (default: all transformable files)
-  exclude: /\.spec\.ts$/, // exclude filter
-  runtimeId: "my-scope/runtime", // import specifier for the runtime (default: kotlified-ts/runtime)
-  shadowWarn: false, // silence shadow warnings (default: true)
+    include: /\/src\//, // extra include filter (default: all transformable files)
+    exclude: /\.spec\.ts$/, // exclude filter
+    runtimeId: "my-scope/runtime", // import specifier for the runtime (default: kotlified-ts/runtime)
+    shadowWarn: false, // silence shadow warnings (default: true)
 });
 ```
 

@@ -18,6 +18,9 @@ importers:
         specifier: ^8.0.4
         version: 8.0.4
     devDependencies:
+      '@concertypin/config':
+        specifier: '>=0.3.0 <1.0.0'
+        version: 0.3.0(oxfmt@0.62.0)(oxlint@1.78.0(oxlint-tsgolint@7.0.2001))
       '@types/node':
         specifier: ^26.2.0
         version: 26.2.0
@@ -62,6 +65,13 @@ packages:
   '@babel/types@8.0.4':
     resolution: {integrity: sha512-eY+Yn3dCqTGmyiq2QRU66lA5FL8lqqqvecHt0fF3uHONIa7ToYsaCiWV8lOKqAs0Rb2SjixiKFROngnulPtt2g==}
     engines: {node: ^22.18.0 || >=24.11.0}
+
+  '@concertypin/config@0.3.0':
+    resolution: {integrity: sha512-JZBknzlmt8lV/nkzhUJMOdHzGWVtY/9jqbtTzu3jWvTIo0GpYSKH0lITVtc66WeyIiGmi8l4FfksJzonLdWbPQ==}
+    engines: {node: '>=24.11.0'}
+    peerDependencies:
+      oxfmt: '>=0.62.0 <1'
+      oxlint: '>=1.47.0 <2'
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -814,6 +824,11 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 8.0.0
       '@babel/helper-validator-identifier': 8.0.4
+
+  '@concertypin/config@0.3.0(oxfmt@0.62.0)(oxlint@1.78.0(oxlint-tsgolint@7.0.2001))':
+    dependencies:
+      oxfmt: 0.62.0
+      oxlint: 1.78.0(oxlint-tsgolint@7.0.2001)
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
