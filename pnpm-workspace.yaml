@@ -1,0 +1,5 @@
+allowBuilds:
+    simple-git-hooks: false
+onlyBuiltDependencies:
+    - esbuild
+    - simple-git-hooks

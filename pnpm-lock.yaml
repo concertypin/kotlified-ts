@@ -23,16 +23,25 @@ importers:
         version: 26.2.0
       oxlint:
         specifier: ^1.78.0
-        version: 1.78.0
+        version: 1.78.0(oxlint-tsgolint@7.0.2001)
+      oxlint-tsgolint:
+        specifier: ^7.0.2001
+        version: 7.0.2001
+      prettier:
+        specifier: ^3.8.3
+        version: 3.9.6
+      simple-git-hooks:
+        specifier: ^2.13.1
+        version: 2.13.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vite:
         specifier: ^8.2.1
-        version: 8.2.1(@types/node@26.2.0)
+        version: 8.2.1(@types/node@26.2.0)(jiti@2.7.0)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0))
+        version: 4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@2.7.0))
 
 packages:
 
@@ -72,6 +81,36 @@ packages:
 
   '@oxc-project/types@0.144.0':
     resolution: {integrity: sha512-nuhZIOLuI6TFQ32I/WnUx+SCPY7SdSKwgnFHydAuoS1+Z4BRcaP+RRJmGzl9lw+0OFF7UmaESf7KQRXaNLHypg==}
+
+  '@oxlint-tsgolint/darwin-arm64@7.0.2001':
+    resolution: {integrity: sha512-CUJEdbSZ54+Xy9OXqOhWLTKZKV0BBiV7C2i/ygyVmXtkUNXx5YCzN8DpSSshTAKktoL7S+tnQ/ftFG/i7X896w==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxlint-tsgolint/darwin-x64@7.0.2001':
+    resolution: {integrity: sha512-pXfBb5BqONCcgrXQNUZWXgiYmRSWJzd97S8i41VVOh6ut0tyo+cJ5FKFpczDHxiVNfj/3e7c9B4MtztNdpIVCw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxlint-tsgolint/linux-arm64@7.0.2001':
+    resolution: {integrity: sha512-roP7zujb/QDPzDwEKsFFpzNHHy91/Y7oX9vQXk78ekyZtcQj1QXDIMH33gjDdHBfRl4K9pZ36xhRgrP4Zr+R8A==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oxlint-tsgolint/linux-x64@7.0.2001':
+    resolution: {integrity: sha512-UDezNqdECVmngu2TPnjaS1YoAmcTaBoI5lV9vk3VahBxoi+I5r9k3iJTT7qZoYWOXTD/7T7bNcwRgrocR6BscQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oxlint-tsgolint/win32-arm64@7.0.2001':
+    resolution: {integrity: sha512-uJZhqB6pdXLuN+AD1F5082byyQti/NPmJA77GtcFlmT2HzRelqbNls3SaIqxpjdFgvSBF9g0yOKGBkGFg7kX8Q==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxlint-tsgolint/win32-x64@7.0.2001':
+    resolution: {integrity: sha512-FkDRm8hx9OwzGQqyWG1tO5QrTLRApff9DzSgpz9QZau37BR8d1VYKOxMLGf6shPZntJFoTwIIJYT68VndYDCog==}
+    cpu: [x64]
+    os: [win32]
 
   '@oxlint/binding-android-arm-eabi@1.78.0':
     resolution: {integrity: sha512-Bu819lmAfZMUHErrpe0cEWj3iaefuUODHSU8+UbXy67V/r7/7f4K3FL0NmbD85E+wiFLDYuhP8Zlv0XnVeXshw==}
@@ -494,6 +533,10 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+  jiti@2.7.0:
+    resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
+    hasBin: true
+
   jsesc@3.1.0:
     resolution: {integrity: sha512-/sM3dO2FOzXjKQhJuo0Q173wf2KOo8t4I8vHy6lF9poUp7bKT0/NHE8fPX23PwfhnykfqnC2xRxOnVw5XuGIaA==}
     engines: {node: '>=6'}
@@ -585,6 +628,10 @@ packages:
     resolution: {integrity: sha512-4a+OsYv9UktOJKE+l1A4OufDgdRF9PifWj+tJnHURo/P+WOxpG4GzUFL9qCalmWauao6ogiG+QvnCovwPoyAWA==}
     engines: {node: '>=12.20.0'}
 
+  oxlint-tsgolint@7.0.2001:
+    resolution: {integrity: sha512-KjK/XLcXr1DSyonKhsuFqJRiuKqcyG9j3LJ8nkOsrLzGvodBPqzHOKauy10asLMDI0sUpvb+1sxlzff3udZvfg==}
+    hasBin: true
+
   oxlint@1.78.0:
     resolution: {integrity: sha512-QgQePuxIqKOzo1KSjG2EnITEeWvWnKAm77eq8nrMtf6AGoA+zyGc4PFYtDNJSD25g/ibOwfQ851hZ4/SPkMVoA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -612,6 +659,11 @@ packages:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
+  prettier@3.9.6:
+    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   rolldown@1.2.4:
     resolution: {integrity: sha512-rSr7irW0K7QRWzjdJXqZowkcRdDtjRduh43rBltnVKd0VFq839l1lJoDvGJb6gl7+4rTTCrPWu+YfujUL8Ug7w==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -619,6 +671,10 @@ packages:
 
   siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
+
+  simple-git-hooks@2.13.1:
+    resolution: {integrity: sha512-WszCLXwT4h2k1ufIXAgsbiTOazqqevFCIncOuUBZJ91DdvWcC5+OFkluWRQPrcuSYd8fjq+o2y1QfWqYMoAToQ==}
+    hasBin: true
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -781,6 +837,24 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@oxc-project/types@0.144.0': {}
+
+  '@oxlint-tsgolint/darwin-arm64@7.0.2001':
+    optional: true
+
+  '@oxlint-tsgolint/darwin-x64@7.0.2001':
+    optional: true
+
+  '@oxlint-tsgolint/linux-arm64@7.0.2001':
+    optional: true
+
+  '@oxlint-tsgolint/linux-x64@7.0.2001':
+    optional: true
+
+  '@oxlint-tsgolint/win32-arm64@7.0.2001':
+    optional: true
+
+  '@oxlint-tsgolint/win32-x64@7.0.2001':
+    optional: true
 
   '@oxlint/binding-android-arm-eabi@1.78.0':
     optional: true
@@ -969,13 +1043,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.10(vite@8.2.1(@types/node@26.2.0))':
+  '@vitest/mocker@4.1.10(vite@8.2.1(@types/node@26.2.0)(jiti@2.7.0))':
     dependencies:
       '@vitest/spy': 4.1.10
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.1(@types/node@26.2.0)
+      vite: 8.2.1(@types/node@26.2.0)(jiti@2.7.0)
 
   '@vitest/pretty-format@4.1.10':
     dependencies:
@@ -1022,6 +1096,9 @@ snapshots:
       picomatch: 4.0.5
 
   fsevents@2.3.3:
+    optional: true
+
+  jiti@2.7.0:
     optional: true
 
   jsesc@3.1.0: {}
@@ -1083,7 +1160,16 @@ snapshots:
 
   obug@2.1.4: {}
 
-  oxlint@1.78.0:
+  oxlint-tsgolint@7.0.2001:
+    optionalDependencies:
+      '@oxlint-tsgolint/darwin-arm64': 7.0.2001
+      '@oxlint-tsgolint/darwin-x64': 7.0.2001
+      '@oxlint-tsgolint/linux-arm64': 7.0.2001
+      '@oxlint-tsgolint/linux-x64': 7.0.2001
+      '@oxlint-tsgolint/win32-arm64': 7.0.2001
+      '@oxlint-tsgolint/win32-x64': 7.0.2001
+
+  oxlint@1.78.0(oxlint-tsgolint@7.0.2001):
     optionalDependencies:
       '@oxlint/binding-android-arm-eabi': 1.78.0
       '@oxlint/binding-android-arm64': 1.78.0
@@ -1104,6 +1190,7 @@ snapshots:
       '@oxlint/binding-win32-arm64-msvc': 1.78.0
       '@oxlint/binding-win32-ia32-msvc': 1.78.0
       '@oxlint/binding-win32-x64-msvc': 1.78.0
+      oxlint-tsgolint: 7.0.2001
 
   pathe@2.0.3: {}
 
@@ -1116,6 +1203,8 @@ snapshots:
       nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  prettier@3.9.6: {}
 
   rolldown@1.2.4:
     dependencies:
@@ -1138,6 +1227,8 @@ snapshots:
       '@rolldown/binding-win32-x64-msvc': 1.2.4
 
   siginfo@2.0.0: {}
+
+  simple-git-hooks@2.13.1: {}
 
   source-map-js@1.2.1: {}
 
@@ -1181,7 +1272,7 @@ snapshots:
 
   undici-types@8.3.0: {}
 
-  vite@8.2.1(@types/node@26.2.0):
+  vite@8.2.1(@types/node@26.2.0)(jiti@2.7.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
@@ -1191,11 +1282,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 26.2.0
       fsevents: 2.3.3
+      jiti: 2.7.0
 
-  vitest@4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)):
+  vitest@4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@2.7.0)):
     dependencies:
       '@vitest/expect': 4.1.10
-      '@vitest/mocker': 4.1.10(vite@8.2.1(@types/node@26.2.0))
+      '@vitest/mocker': 4.1.10(vite@8.2.1(@types/node@26.2.0)(jiti@2.7.0))
       '@vitest/pretty-format': 4.1.10
       '@vitest/runner': 4.1.10
       '@vitest/snapshot': 4.1.10
@@ -1212,7 +1304,7 @@ snapshots:
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.1(@types/node@26.2.0)
+      vite: 8.2.1(@types/node@26.2.0)(jiti@2.7.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.2.0
