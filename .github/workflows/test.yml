@@ -1,21 +1,21 @@
 name: Tests
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 permissions:
-    contents: read
+  contents: read
 jobs:
-    tests:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: Setup pnpm Environment
-              uses: concertypin/action/pnpm-install@master
+      - name: Setup pnpm Environment
+        uses: concertypin/action/pnpm-install@master
 
-            - name: Run tests
-              run: pnpm test
+      - name: Run tests
+        run: pnpm test

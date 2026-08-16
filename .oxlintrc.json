@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["test/**/*.ts"],
+      "rules": {
+        "no-floating-promises": "off"
+      }
+    }
+  ]
+}

@@ -1,7 +1,0 @@
-dist
-.claude
-public
-node_modules
-
-pnpm-lock.yaml
-**/__screenshots__
